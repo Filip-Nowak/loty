@@ -10,6 +10,8 @@ public class SavedFlights {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
+    @ManyToOne
+    @JoinColumn(name="flight_id")
+    private Flight flight;
     //Flight flight;
 }
