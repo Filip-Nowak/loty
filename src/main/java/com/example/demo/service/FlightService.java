@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package src.main.java.com.example.demo.service;
 
 import com.example.demo.entity.Airport;
 import com.example.demo.entity.Flight;
@@ -6,6 +6,7 @@ import com.example.demo.repositories.FlightRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +14,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class FlightService {
     private FlightRepository flightRepository;
+    private AirportService airportService;
     public void addFlight(Flight airport){
         flightRepository.save(airport);
     }
@@ -25,7 +27,23 @@ public class FlightService {
     public long getCount(){
         return flightRepository.count();
     }
-    public List<Flight> getFlightByPararms(Airport departureAirport){
+
+    public List<Flight> getFlightByParams(Airport departureAirport){
         return flightRepository.getFlightsWithParams(departureAirport);
+    }
+
+    public List<Flight> search(Optional<String>  oFrom, Optional<String> oTo, Optional<String> oDeparture, Optional<String> oReturnTime, Optional<String> oPassengersCount) {
+        Airport from=null,to=null;
+        long departure=0,returnTime=0;
+        int passengers;
+        if(oFrom.isPresent()){
+            from=airportService.getAirportByName( oFrom.get());
+        }
+        if(oTo.isPresent()){
+            to=airportService.getAirportByName(oTo.get());
+        }
+        return flightRepository.findUsersByParams(from,to,3,3,3);
+
+
     }
 }

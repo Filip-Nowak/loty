@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package src.main.java.com.example.demo.controller;
 
 import com.example.demo.entity.Airport;
 import com.example.demo.entity.Flight;
@@ -21,7 +21,7 @@ public class MyRestController {
     public List<Flight> getFlight(@RequestParam Map<String,String> params){
         Airport destinyAirport=airportService.getAirportById(1);
         System.out.println(destinyAirport.getName());
-        List<Flight> flights=flightService.getFlightByPararms(destinyAirport);
+        List<Flight> flights=flightService.getFlightByParams(destinyAirport);
         System.out.println(flights);
         return flights;
     }

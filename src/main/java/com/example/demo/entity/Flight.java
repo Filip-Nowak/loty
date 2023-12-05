@@ -1,4 +1,4 @@
-package com.example.demo.entity;
+package src.main.java.com.example.demo.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,6 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -20,11 +23,12 @@ public class Flight {
     @ManyToOne
     @JoinColumn(name="arrive")
     private Airport arriveAirport;
-    private long arriveDateTime;
+    private LocalDateTime arriveDateTime;
     @ManyToOne
     @JoinColumn(name="departure")
     private Airport departureAirport;
-    private long departureDateTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime departureDateTime;
     private int gate;
     private String terminal;
     @ManyToOne

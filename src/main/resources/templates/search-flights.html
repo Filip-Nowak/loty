@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <fieldset>
+        <legend>dupa</legend>
+        <div>xdd</div>
+        <table th:if="${found}" th:each="flight:${flights}">
+            <tr>
+                <td th:text="${flight.departureAirport.name}"></td>
+                <td th:text="${flight.arriveAirport.name}"></td>
+                <td th:text="${flight.arriveDateTime}"></td>
+                <td th:text="${flight.departureDateTime}"></td>
+            </tr>
+        </table>
+        <div th:if="${!found}">not found</div>
+    </fieldset>
+</body>
+</html>

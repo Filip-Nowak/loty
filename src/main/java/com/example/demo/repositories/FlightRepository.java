@@ -1,4 +1,4 @@
-package com.example.demo.repositories;
+package src.main.java.com.example.demo.repositories;
 
 import com.example.demo.entity.Airport;
 import com.example.demo.entity.Flight;
@@ -8,7 +8,8 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface FlightRepository extends JpaRepository<Flight,Long > {
+public interface FlightRepository extends JpaRepository<Flight,Long >,CustomFlightRepository {
     @Query("SELECT f from Flight f where f.departureAirport=:departureAirport")
     List<Flight> getFlightsWithParams(@Param("departureAirport")Airport departureAirport);
+
 }

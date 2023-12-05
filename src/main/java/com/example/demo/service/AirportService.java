@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package src.main.java.com.example.demo.service;
 
 import com.example.demo.entity.Airport;
 import com.example.demo.entity.User;
@@ -23,5 +23,11 @@ public class AirportService {
     }
     public long getCount(){
         return airportRepository.count();
+    }
+    public Airport getAirportByName(String name){
+        Optional<Airport> optional= airportRepository.getAirportByName(name);
+        if(optional.isEmpty())
+            return null;
+        return optional.get();
     }
 }
