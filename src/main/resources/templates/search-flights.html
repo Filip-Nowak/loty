@@ -8,7 +8,7 @@
     <fieldset>
         <legend>dupa</legend>
         <div>xdd</div>
-        <table th:if="${found}" th:each="flight:${flights}">
+        <table th:if="${found} and ${!wrong}" th:each="flight:${flights}">
             <tr>
                 <td th:text="${flight.departureAirport.name}"></td>
                 <td th:text="${flight.arriveAirport.name}"></td>
@@ -16,7 +16,8 @@
                 <td th:text="${flight.departureDateTime}"></td>
             </tr>
         </table>
-        <div th:if="${!found}">not found</div>
+        <div th:if="${!found} and ${!wrong}">not found</div>
+        <div th:if="${wrong}" th:text="wrong"></div>
     </fieldset>
 </body>
 </html>

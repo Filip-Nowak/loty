@@ -5,8 +5,6 @@
     <title>Title</title>
 </head>
 <body>
-    <p th:text="${user.nickname} + ${user.roles}"></p>
-    <p>amount of flights</p>
 <form th:action="@{/filldb}" action="#" method="post">
     <input name="amount" type="number">
     <input type="submit">

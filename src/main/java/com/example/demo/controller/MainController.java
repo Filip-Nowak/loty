@@ -1,4 +1,4 @@
-package src.main.java.com.example.demo.controller;
+package com.example.demo.controller;
 
 import com.example.demo.entity.*;
 import com.example.demo.model.AirportModel;
@@ -29,11 +29,7 @@ public class MainController {
 
     @GetMapping("/filldb")
     public String addRandomFlights(Model model) {
-        User user = User.builder().id(0).email("mikib@gmail.com").lastname("xd").firstname("miki").nickname("bala").pass("pass").passPlain("passplain").build();
-        user.addRole(new Role("user"));
-        userService.addUser(user);
-        User dbUser = userService.getUserById(1);
-        model.addAttribute("user", dbUser);
+
         return "fill-db";
     }
 
@@ -47,13 +43,21 @@ public class MainController {
         List<Flight> list = new LinkedList<>();
         Random random = new Random();
         for (int i = 0; i < amountOfFlights; i++) {
-            Airport arriveAirport = airportService.getAirportById(random.nextInt((int) airportService.getCount()));
-            Airport departureAirport = airportService.getAirportById(random.nextInt((int) airportService.getCount()));
+            Airport arriveAirport = airportService.getAirportById(random.nextInt((int) airportService.getCount())+1);
+            Airport departureAirport = airportService.getAirportById(random.nextInt((int) airportService.getCount())+1);
             Plane plane = planeService.getPlaneById(random.nextInt((int) planeService.getCount()));
             LocalDateTime departureDate=getRandomDate();
             LocalDateTime arriveDate=getRandomArriveDate(departureDate);
             flightService.addFlight(Flight.builder().arriveAirport(arriveAirport).departureAirport(departureAirport).arriveDateTime(arriveDate).departureDateTime(departureDate).gate(1).plane(plane).terminal("terminal").tickets(null).build());
-
+            Flight flight=flightService.getFlightById(i+1);
+            if(flight.getDepartureAirport()==null||flight.getArriveAirport()==null)
+            {
+                System.out.println("id: "+flight.getId()+";a: "+flight.getArriveAirport()+";d: "+flight.getDepartureAirport());
+                System.out.println("xdd");
+                System.out.println("a: "+arriveAirport);
+                System.out.println("d: "+departureAirport);
+                System.out.println("count: "+airportService.getCount());
+            }
         }
         return null;
     }
@@ -64,17 +68,28 @@ public class MainController {
         return departureDate.plusHours(hours);
     }
 
-    @GetMapping("/searchf")
+    @GetMapping("/search")
     private String showSearchFlightsView(Model model, @RequestParam(name = "from") Optional<String> oFrom, @RequestParam(name="departure") Optional<String> oDeparture, @RequestParam(name = "to") Optional<String> oTo, @RequestParam(name = "return") Optional<String> oReturnTime, @RequestParam(name = "passengers") Optional<String> oPassengersCount) {
         String from,to;
         long departure,returnTime;
         int passengers;
-        List<Flight>flights=flightService.search(oFrom,oTo,oDeparture,oReturnTime,oPassengersCount);
+        List<Flight> flights;
+        try
+        {
+            flights=flightService.search(oFrom,oTo,oDeparture,oReturnTime,oPassengersCount);
+        }catch (Exception e){
+            model.addAttribute("wrong",true);
+            model.addAttribute("found",false);
+            model.addAttribute("flights",null);
+
+            return "search-flights";
+        }
         List<FlightModel> models=new LinkedList<>();
         for (Flight flight:
              flights) {
             models.add(new FlightModel(new AirportModel(flight.getDepartureAirport().getName()),new AirportModel(flight.getArriveAirport().getName()),flight.getDepartureDateTime(),flight.getArriveDateTime()));
         }
+        model.addAttribute("wrong",false);
         model.addAttribute("flights",models);
         model.addAttribute("found",models.size()!=0);
         return "search-flights";

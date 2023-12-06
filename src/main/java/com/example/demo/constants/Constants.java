@@ -1,4 +1,4 @@
-package src.main.java.com.example.demo.constants;
+package com.example.demo.constants;
 
 public class Constants {
     public static final String[] CITIES={"Warsaw","Berlin","Paris","Prague","Rome","Madrid","Lisbon","Helsinki","London"};

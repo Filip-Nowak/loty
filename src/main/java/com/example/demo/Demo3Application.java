@@ -1,4 +1,4 @@
-package src.main.java.com.example.demo;
+package com.example.demo;
 
 import com.example.demo.constants.Constants;
 import com.example.demo.entity.Airport;

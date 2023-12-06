@@ -1,4 +1,4 @@
-package src.main.java.com.example.demo.service;
+package com.example.demo.service;
 
 import com.example.demo.entity.Airport;
 import com.example.demo.entity.Ticket;

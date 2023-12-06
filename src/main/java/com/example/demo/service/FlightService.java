@@ -1,10 +1,11 @@
-package src.main.java.com.example.demo.service;
+package com.example.demo.service;
 
 import com.example.demo.entity.Airport;
 import com.example.demo.entity.Flight;
 import com.example.demo.repositories.FlightRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -32,15 +33,20 @@ public class FlightService {
         return flightRepository.getFlightsWithParams(departureAirport);
     }
 
-    public List<Flight> search(Optional<String>  oFrom, Optional<String> oTo, Optional<String> oDeparture, Optional<String> oReturnTime, Optional<String> oPassengersCount) {
+    public List<Flight> search(Optional<String>  oFrom, Optional<String> oTo, Optional<String> oDeparture, Optional<String> oReturnTime, Optional<String> oPassengersCount) throws Exception {
         Airport from=null,to=null;
         long departure=0,returnTime=0;
         int passengers;
         if(oFrom.isPresent()){
             from=airportService.getAirportByName( oFrom.get());
+            if(from==null)
+                throw new Exception("wrong data");
+
         }
         if(oTo.isPresent()){
             to=airportService.getAirportByName(oTo.get());
+            if(to==null)
+                throw new Exception("wrong data");
         }
         return flightRepository.findUsersByParams(from,to,3,3,3);
 

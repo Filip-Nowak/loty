@@ -1,4 +1,4 @@
-package src.main.java.com.example.demo.model;
+package com.example.demo.model;
 
 import com.example.demo.entity.Airport;
 import lombok.AllArgsConstructor;
