@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class FlightModel {
     private AirportModel departureAirport;
     private AirportModel arriveAirport;
-    private LocalDateTime departureDateTime;
-    private LocalDateTime arriveDateTime;
+    private String departureDateTime;
+    private String arriveDateTime;
 
 }

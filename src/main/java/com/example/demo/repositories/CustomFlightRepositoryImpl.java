@@ -12,6 +12,8 @@ import jakarta.persistence.criteria.Root;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,7 +22,7 @@ import java.util.List;
 public class CustomFlightRepositoryImpl implements CustomFlightRepository{
     EntityManager entityManager;
     @Override
-    public List<Flight> findUsersByParams(Airport from, Airport to, long departure, long returnTime, int passengers) {
+    public List<Flight> findUsersByParams(Airport from, Airport to, LocalDate departure, LocalDate arrive, int passengers) {
         String jpqlQuery = "SELECT f FROM Flight f ";
         boolean start=true;
         LinkedList<Object[]> params=new LinkedList<>();
@@ -41,6 +43,28 @@ public class CustomFlightRepositoryImpl implements CustomFlightRepository{
             params.add(new Object[]{"toParam",to});
 
         }
+        if(departure!=null){
+            if(!start){
+                jpqlQuery+="AND day(f.departureDateTime)=day(:departure) AND month(f.departureDateTime)=month(:departure) AND year(f.departureDateTime)=year(:departure)";
+            }else{
+                start=false;
+                jpqlQuery+="WHERE day(f.departureDateTime)=day(:departure) AND month(f.departureDateTime)=month(:departure) AND year(f.departureDateTime)=year(:departure)";
+
+            }
+            params.add(new Object[]{"departure",departure});
+        }
+        if(arrive!=null){
+            if(!start){
+                jpqlQuery+="AND day(f.arriveDateTime)=day(:arrive) AND month(f.arriveDateTime)=month(:arrive) AND year(f.arriveDateTime)=year(:arrive)";
+            }else{
+                start=false;
+                jpqlQuery+="WHERE day(f.arriveDateTime)=day(:arrive) AND month(f.arriveDateTime)=month(:arrive) AND year(f.arriveDateTime)=year(:arrive)";
+
+            }
+            params.add(new Object[]{"arrive",arrive});
+        }
+
+
 
         Query query = entityManager.createQuery(jpqlQuery);
         for (Object[] o :

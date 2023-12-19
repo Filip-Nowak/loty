@@ -3,21 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        td {
+            border: 1px black solid;
+        }
+    </style>
 </head>
 <body>
-    <fieldset>
-        <legend>dupa</legend>
-        <div>xdd</div>
-        <table th:if="${found} and ${!wrong}" th:each="flight:${flights}">
-            <tr>
-                <td th:text="${flight.departureAirport.name}"></td>
-                <td th:text="${flight.arriveAirport.name}"></td>
-                <td th:text="${flight.arriveDateTime}"></td>
-                <td th:text="${flight.departureDateTime}"></td>
-            </tr>
-        </table>
-        <div th:if="${!found} and ${!wrong}">not found</div>
-        <div th:if="${wrong}" th:text="wrong"></div>
-    </fieldset>
+<fieldset>
+    <legend>dupa</legend>
+    <form action="#" th:action="@{/search}" method="get" th:object="${params}">
+        <label>from <input type="text" name="from"></label>
+        <label>from <input type="text" name="to"></label>
+        <label>from <input type="date" name="departure"></label>
+        <label>from <input type="date" name="arrive"></label>
+        <input type="submit">
+    </form>
+</fieldset>
+<table th:if="${found} and ${!wrong}">
+    <thead>
+    <tr style="font-weight: bold">
+        <td>from</td>
+        <td>to</td>
+        <td>departure time</td>
+        <td>arrive time</td>
+    </tr>
+    </thead>
+    <tbody th:each="flight:${flights}">
+    <tr>
+        <td th:text="${flight.departureAirport.name}"></td>
+        <td th:text="${flight.arriveAirport.name}"></td>
+        <td th:text="${flight.departureDateTime}"></td>
+        <td th:text="${flight.arriveDateTime}"></td>
+    </tr>
+    </tbody>
+</table>
+<div th:if="${!found} and ${!wrong}">not found</div>
+<div th:if="${wrong}" th:text="wrong"></div>
+
 </body>
 </html>
